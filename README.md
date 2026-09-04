@@ -2,43 +2,46 @@
 
 O **CamufladoBot** é um robô de automação desenvolvido em Python para automatizar o registro de frequência no portal **Mentorh** (Defensoria Pública do Estado do Pará) integrado ao Telegram.
 
-O robô utiliza o **Playwright** em modo *headless* (navegador invisível) para realizar o login, acessar a área de ponto eletrônico, efetuar a batida de entrada/saída, confirmar a caixa de diálogo do sistema e enviar o comprovante em foto diretamente no chat do Telegram.
+O robô utiliza o **Playwright** em modo *headless* (navegador invisível) para realizar o login, navegar no menu do portal, efetuar a batida de entrada/saída, confirmar a caixa de diálogo do sistema e enviar o comprovante em foto diretamente no chat do Telegram.
 
 ---
 
 ## 📌 Funcionalidades
 
-- 🟢 **Batida de Entrada:** Efetua o registro de entrada e retorna a imagem de comprovante.
-- 🔴 **Batida de Saída:** Efetua o registro de saída e retorna a imagem de comprovante.
-- 🧪 **Modo Teste:** Simula o login e navegação no portal até a tela de ponto sem registrar o ponto real.
-- 🔐 **Segurança:** Credenciais e tokens armazenados em variáveis de ambiente (`.env`).
-- 🧹 **Limpeza Automática:** Remove comprovantes locais após envio no Telegram para economizar espaço.
+- 🟢 **Batida de Entrada:** Acessa o portal, clica em bater ponto, confirma o diálogo e envia a foto comprovante.
+- 🔴 **Batida de Saída:** Acessa o portal, clica em bater ponto, confirma o diálogo e envia a foto comprovante.
+- 🧪 **Modo Teste:** Simula o login e a navegação até a tela de registro de ponto sem realizar a batida real.
+- ❓ **Boas-Vindas:** Mensagem explicativa com todos os comandos disponíveis ao enviar `/start`.
+- 🔐 **Segurança:** Credenciais e tokens protegidos em variáveis de ambiente (`.env`).
+- 🧹 **Limpeza Automática:** Apaga as imagens de comprovante locais após o envio no Telegram.
 
 ---
 
-## 🚀 Como Iniciar o Bot no Terminal
+## 🚀 Como Executar o Bot no Terminal
 
-### 1. Ativar o Ambiente Virtual e Rodar
+### 1. Execução em Primeiro Plano (Terminal Aberto)
 
-Abra o terminal na pasta do projeto `/home/victor/Documentos/Assistentebot` e execute:
+Navegue até a pasta do projeto e execute:
 
 ```bash
-# Ativa o ambiente virtual
+# Ativar o ambiente virtual
 source venv/bin/activate
 
-# Executa o bot
+# Executar o bot
 python bot.py
 ```
 
-*Ou execute diretamente pelo interpretador do ambiente virtual:*
+*Ou diretamente via interpretador do ambiente virtual:*
 
 ```bash
 ./venv/bin/python bot.py
 ```
 
+> **Para parar:** Pressione **`Ctrl + C`** no terminal.
+
 ---
 
-### 🌙 Rodar em Segundo Plano no Linux (Sem fechar o bot ao fechar o terminal)
+### 2. Execução em Segundo Plano no Linux (Background 24/7)
 
 Para manter o bot funcionando mesmo após fechar a janela do terminal:
 
@@ -46,39 +49,53 @@ Para manter o bot funcionando mesmo após fechar a janela do terminal:
 nohup ./venv/bin/python bot.py > bot.log 2>&1 &
 ```
 
-Para verificar se o bot está rodando em segundo plano:
+#### 🔍 Como verificar se o bot está rodando:
 ```bash
 ps aux | grep bot.py
 ```
 
-Para parar a execução do bot em segundo plano:
+#### 📜 Como acompanhar os logs em tempo real:
 ```bash
-pkill -f bot.py
+tail -f bot.log
 ```
+
+#### 🛑 Como parar a execução em segundo plano:
+
+* **Opção Rápida:**
+  ```bash
+  pkill -f bot.py
+  ```
+
+* **Opção por ID de Processo (PID):**
+  ```bash
+  # 1. Encontre o PID
+  ps aux | grep bot.py
+
+  # 2. Encerre o processo (substitua 12345 pelo PID encontrado)
+  kill 12345
+  ```
 
 ---
 
 ## 💬 Comandos do Bot no Telegram
 
-Envie qualquer um destes comandos na conversa com o bot no Telegram:
-
 | Comando | Descrição |
 | :--- | :--- |
-| **`/start`** | Exibe a mensagem de boas-vindas e a lista de comandos disponíveis. |
-| **`/entrada`** | Acessa o portal, registra o ponto de **ENTRADA**, confirma o diálogo e envia a foto comprovante. |
-| **`/saida`** | Acessa o portal, registra o ponto de **SAÍDA**, confirma o diálogo e envia a foto comprovante. |
-| **`/teste`** | Executa o teste de login e navegação até a tela de ponto sem efetuar a batida. |
+| **`/start`** | Exibe a mensagem de boas-vindas e o menu de ajuda com todos os comandos. |
+| **`/entrada`** | Registra o ponto de **ENTRADA**, confirma a batida e envia o comprovante em foto. |
+| **`/saida`** | Registra o ponto de **SAÍDA**, confirma a batida e envia o comprovante em foto. |
+| **`/teste`** | Efetua login e acessa a tela de ponto para testar a conexão sem bater o ponto. |
 
 ---
 
 ## ⚙️ Configuração das Variáveis de Ambiente (`.env`)
 
-Crie ou edite o arquivo `.env` na raiz do projeto com as suas credenciais:
+O arquivo `.env` deve ser criado na raiz do projeto com as credenciais do portal e o token do Telegram:
 
 ```env
-TELEGRAM_TOKEN=SEU_TOKEN_DO_TELEGRAM
-MEU_LOGIN=SEU_CPF_OU_MATRICULA
-MINHA_SENHA=SUA_SENHA_DO_PORTAL
+TELEGRAM_TOKEN=8018571220:AAGiY_oHNZFWXeexJ2Gj1R2O1GptI4fevBQ
+MEU_LOGIN=02151683214
+MINHA_SENHA=SUA_SENHA_AQUI
 URL_PORTAL=https://mentorh.defensoria.pa.def.br/csp/dpepa/portal/novo/index.csp
 ```
 
@@ -86,25 +103,26 @@ URL_PORTAL=https://mentorh.defensoria.pa.def.br/csp/dpepa/portal/novo/index.csp
 
 ## 🛠️ Dependências do Projeto
 
-O projeto necessita das seguintes bibliotecas Python (já instaladas no `venv`):
-- `python-telegram-bot`
-- `playwright`
-- `python-dotenv`
+As dependências já estão instaladas no ambiente virtual (`venv`):
+- `python-telegram-bot` (Comunicação com a API do Telegram)
+- `playwright` (Automação web do Chromium)
+- `python-dotenv` (Leitura de variáveis de ambiente do `.env`)
 
-Para reinstalar o Playwright caso necessário:
+Caso precise reinstalar o navegador do Playwright:
 ```bash
-playwright install chromium
+./venv/bin/playwright install chromium
 ```
 
 ---
 
-## 📂 Estrutura de Arquivos
+## 📂 Estrutura do Projeto
 
 ```text
 Assistentebot/
 │── bot.py           # Código principal do robô
-│── .env             # Credenciais privadas (não versionar no Git)
-│── .gitignore       # Arquivos ignorados pelo Git
-│── README.md        # Documentação do projeto
-└── venv/            # Ambiente virtual Python
+│── .env             # Credenciais e tokens privados (não versionar)
+│── .gitignore       # Arquivos ignorados pelo Git (.env, venv, comprovantes)
+│── README.md        # Documentação completa do projeto
+│── bot.log          # Arquivo de logs gerado quando rodado em segundo plano
+└── venv/            # Ambiente virtual com as dependências instaladas
 ```
