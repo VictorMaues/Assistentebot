@@ -17,6 +17,45 @@ O robô utiliza o **Playwright** em modo *headless* (navegador invisível) para 
 
 ---
 
+## 🤖 Como Criar seu Próprio Bot no Telegram (BotFather)
+
+Para utilizar este programa, você precisa criar o seu próprio bot no Telegram e obter um **Token de Acesso**. Siga o passo a passo abaixo:
+
+1. **Abra o Telegram** e pesquise pelo usuário oficial **`@BotFather`** (ou acesse [t.me/BotFather](https://t.me/BotFather)).
+2. Clique em **Começar** ou envie o comando `/start`.
+3. Crie um novo bot enviando o comando:
+   ```text
+   /newbot
+   ```
+4. **Defina o Nome do Bot:** O BotFather solicitará um nome visível (exemplo: `Meu Ponto Bot`).
+5. **Defina o Username do Bot:** O BotFather solicitará um nome de usuário único que **obrigatoriamente deve terminar com `bot`** (exemplo: `MeuPontoOficial_bot`).
+6. **Copie o Token de API:** O BotFather enviará uma mensagem de confirmação com um token no formato:
+   `1234567890:ABCdefGHIjklMNOpqrsTUVwxyz...`
+7. Cole esse token no arquivo `.env` no campo `TELEGRAM_TOKEN`.
+
+> 💡 **Dica (Opcional):** Para cadastrar o menu de comandos automáticos no Telegram, envie `/setcommands` para o `@BotFather`, escolha seu bot e envie o texto abaixo:
+> ```text
+> start - Boas-vindas e ajuda
+> entrada - Registrar ponto de entrada
+> saida - Registrar ponto de saída
+> teste - Testar conexão sem bater ponto
+> ```
+
+---
+
+## ⚙️ Configuração das Variáveis de Ambiente (`.env`)
+
+Crie um arquivo chamado `.env` na raiz do projeto e insira o seu token gerado pelo BotFather juntamente com suas credenciais do portal:
+
+```env
+TELEGRAM_TOKEN=SEU_TOKEN_GERADO_PELO_BOTFATHER
+MEU_LOGIN=SEU_CPF_OU_MATRICULA
+MINHA_SENHA=SUA_SENHA_DO_PORTAL
+URL_PORTAL=https://mentorh.defensoria.pa.def.br/csp/dpepa/portal/novo/index.csp
+```
+
+---
+
 ## 🚀 Como Executar o Bot no Terminal
 
 ### 1. Execução em Primeiro Plano (Terminal Aberto)
@@ -85,19 +124,6 @@ tail -f bot.log
 | **`/entrada`** | Registra o ponto de **ENTRADA**, confirma a batida e envia o comprovante em foto. |
 | **`/saida`** | Registra o ponto de **SAÍDA**, confirma a batida e envia o comprovante em foto. |
 | **`/teste`** | Efetua login e acessa a tela de ponto para testar a conexão sem bater o ponto. |
-
----
-
-## ⚙️ Configuração das Variáveis de Ambiente (`.env`)
-
-O arquivo `.env` deve ser criado na raiz do projeto com as credenciais do portal e o token do Telegram:
-
-```env
-TELEGRAM_TOKEN=8018571220:AAGiY_oHNZFWXeexJ2Gj1R2O1GptI4fevBQ
-MEU_LOGIN=02151683214
-MINHA_SENHA=SUA_SENHA_AQUI
-URL_PORTAL=https://mentorh.defensoria.pa.def.br/csp/dpepa/portal/novo/index.csp
-```
 
 ---
 
