@@ -20,26 +20,24 @@ async def automatizar_ponto(tipo: str) -> str:
         page = await browser.new_page()
         
         try:
-            # 1. Acessa o site
-            await page.goto(URL_PORTAL)
-            await page.wait_for_load_state("networkidle")
+            # 1. Acessa o site (usa domcontentloaded para evitar travamentos em requisições de fundo)
+            await page.goto(URL_PORTAL, wait_until="domcontentloaded", timeout=30000)
             
             # 2. Faz o Login (Com os seletores CSS #login, #senha e #acessar)
+            await page.wait_for_selector("#login", state="attached", timeout=15000)
             await page.fill("#login", MEU_LOGIN)
             await page.fill("#senha", MINHA_SENHA)
             await page.click("#acessar")
             
-            # Espera a página carregar após o login
-            await asyncio.sleep(3)
-            await page.wait_for_load_state("networkidle")
-            
-            # 3. Abre o menu 'Registrar Ponto' (menu="100.3.6.40")
+            # 3. Aguarda o portal carregar e abre o menu 'Registrar Ponto' (menu="100.3.6.40")
+            await page.wait_for_selector('a[menu="100.3.6.40"]', state="attached", timeout=15000)
             await page.evaluate("""() => {
                 const el = document.querySelector('a[menu="100.3.6.40"]') || Array.from(document.querySelectorAll('a')).find(a => a.innerText.includes('Registrar Ponto'));
                 if (el) el.click();
             }""")
-            await asyncio.sleep(3)
-            await page.wait_for_load_state("networkidle")
+            
+            # Aguarda a tela de registro de ponto carregar e o botão estar visível
+            await page.wait_for_selector("#bater_ponto", state="visible", timeout=15000)
             
             # 4. Clica no botão de bater o ponto e confirma o diálogo
             if tipo in ["entrada", "saida"]:
@@ -122,7 +120,13 @@ def main():
     if not TOKEN:
         raise ValueError("TELEGRAM_TOKEN não encontrado no arquivo .env!")
 
-    app = Application.builder().token(TOKEN).build()
+    app = (
+        Application.builder()
+        .token(TOKEN)
+        .connect_timeout(30.0)
+        .read_timeout(30.0)
+        .build()
+    )
 
     # Registra os comandos /start, /entrada, /saida e /teste
     app.add_handler(CommandHandler("start", start))
