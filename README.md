@@ -43,6 +43,43 @@ Para utilizar este programa, você precisa criar o seu próprio bot no Telegram 
 
 ---
 
+## 📦 Requisitos e Instalação
+
+### Requisitos Prévios
+- **Python 3.8** ou superior instalado.
+
+### Passo a Passo de Instalação
+
+Navegue até a pasta do projeto no terminal e siga as etapas:
+
+1. **Criar e Ativar o Ambiente Virtual (`venv`):**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+
+2. **Instalar as Dependências do Python:**
+   ```bash
+   pip install python-telegram-bot playwright python-dotenv
+   ```
+
+   **Dependências instaladas:**
+   - `python-telegram-bot`: Comunicação com a API do Telegram.
+   - `playwright`: Automação e navegação web em modo invisível.
+   - `python-dotenv`: Leitura de variáveis de ambiente a partir do arquivo `.env`.
+
+3. **Instalar os Navegadores do Playwright (Chromium):**
+   ```bash
+   playwright install chromium
+   ```
+
+   *(Opcional no Linux)* Caso esteja em um ambiente de servidor sem interface gráfica e falte dependências do sistema:
+   ```bash
+   playwright install-deps chromium
+   ```
+
+---
+
 ## ⚙️ Configuração das Variáveis de Ambiente (`.env`)
 
 Crie um arquivo chamado `.env` na raiz do projeto e insira o seu token gerado pelo BotFather juntamente com suas credenciais do portal:
@@ -124,20 +161,6 @@ tail -f bot.log
 | **`/entrada`** | Registra o ponto de **ENTRADA**, confirma a batida e envia o comprovante em foto. |
 | **`/saida`** | Registra o ponto de **SAÍDA**, confirma a batida e envia o comprovante em foto. |
 | **`/teste`** | Efetua login e acessa a tela de ponto para testar a conexão sem bater o ponto. |
-
----
-
-## 🛠️ Dependências do Projeto
-
-As dependências já estão instaladas no ambiente virtual (`venv`):
-- `python-telegram-bot` (Comunicação com a API do Telegram)
-- `playwright` (Automação web do Chromium)
-- `python-dotenv` (Leitura de variáveis de ambiente do `.env`)
-
-Caso precise reinstalar o navegador do Playwright:
-```bash
-./venv/bin/playwright install chromium
-```
 
 ---
 
