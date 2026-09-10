@@ -58,12 +58,17 @@ Navegue até a pasta do projeto no terminal e siga as etapas:
    source venv/bin/activate
    ```
 
-2. **Instalar as Dependências do Python:**
+2. **Instalar as Dependências do Python (`requirements.txt`):**
    ```bash
-   pip install python-telegram-bot playwright python-dotenv
+   pip install -r requirements.txt
    ```
 
-   **Dependências instaladas:**
+   *Ou com o **`uv`** (gerenciador ultra-rápido):*
+   ```bash
+   uv pip install -r requirements.txt
+   ```
+
+   **Dependências inclusas:**
    - `python-telegram-bot`: Comunicação com a API do Telegram.
    - `playwright`: Automação e navegação web em modo invisível.
    - `python-dotenv`: Leitura de variáveis de ambiente a partir do arquivo `.env`.
@@ -169,6 +174,7 @@ tail -f bot.log
 ```text
 Assistentebot/
 │── bot.py           # Código principal do robô
+│── requirements.txt # Gerenciador de dependências do projeto Python
 │── .env             # Credenciais e tokens privados (não versionar)
 │── .gitignore       # Arquivos ignorados pelo Git (.env, venv, comprovantes)
 │── README.md        # Documentação completa do projeto
